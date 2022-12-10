@@ -46,16 +46,20 @@ export default function Home() {
     }
   }, []);
 
+  // https://slick-test-app.vercel.app/
+
   useEffect(() => {
     getMovieRequest();
   }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     const res = await fetchData(input);
     if (res.Search) {
       setData([{ category: input, res: res.Search }]);
     }
+    setLoading(false);
   };
 
   return (
@@ -74,13 +78,14 @@ export default function Home() {
           onSubmit={handleSubmit}
         />
 
-        {data.map((item) => (
-          <CategoryCard
-            key={item.category}
-            category={item.category}
-            data={item.res}
-          />
-        ))}
+        {!loading &&
+          data.map((item) => (
+            <CategoryCard
+              key={item.category}
+              category={item.category}
+              data={item.res}
+            />
+          ))}
 
         {loading && (
           <LoadingCard>
