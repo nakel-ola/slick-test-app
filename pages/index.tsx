@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Head from "next/head";
 import { FormEvent, useCallback, useEffect, useState } from "react";
+import ReactLoading from "react-loading";
 import styled from "styled-components";
 import CategoryCard from "../components/CategoryCard";
 import Header from "../components/Header";
@@ -22,24 +24,26 @@ let categories = [
 ];
 export default function Home() {
   const [data, setData] = useState<DataProps[]>([]);
-  const [input, setInput] = useState("");
-
+  const [input, setInput] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const getMovieRequest = useCallback(async () => {
-    let newData: DataProps[] = [];
+    if (data.length !== categories.length) {
+      let newData: DataProps[] = [];
+      setLoading(true);
 
-    for (let i = 0; i < categories.length; i++) {
-      const element = categories[i];
-      const res = await fetchData(element);
-      if (res?.Search) {
-        newData[i] = {
-          category: element,
-          res: res.Search,
-        };
+      for (let i = 0; i < categories.length; i++) {
+        const element = categories[i];
+        const res = await fetchData(element);
+        if (res?.Search) {
+          newData[i] = {
+            category: element,
+            res: res.Search,
+          };
+        }
       }
+      setData(newData);
+      setLoading(false);
     }
-    setData(newData);
-
-    console.log(newData);
   }, []);
 
   useEffect(() => {
@@ -77,6 +81,12 @@ export default function Home() {
             data={item.res}
           />
         ))}
+
+        {loading && (
+          <LoadingCard>
+            <ReactLoading type="spinningBubbles" color="black" />
+          </LoadingCard>
+        )}
       </main>
     </Container>
   );
@@ -84,4 +94,10 @@ export default function Home() {
 
 const Container = styled.div`
   margin-bottom: 33px;
+`;
+const LoadingCard = styled.div`
+  width: 100%;
+  display: grid;
+  place-items: center;
+  height: 30vh;
 `;
