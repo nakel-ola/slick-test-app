@@ -18,10 +18,9 @@ export default Card;
 const Container = styled.div<{ bgImage: string }>`
   margin-right: 13px;
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   padding: 10px;
-  gap: 10px;
   width: 200px;
   height: 200px;
   background-color: #000000;
@@ -41,13 +40,8 @@ const Container = styled.div<{ bgImage: string }>`
   }
 
   > div {
-    width: 280px;
     display: flex;
     align-items: center;
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 1;
     > p {
       font-size: 18px;
       font-family: "DM Sans";
