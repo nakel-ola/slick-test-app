@@ -26,15 +26,16 @@ export default function Home() {
 
   const getMovieRequest = useCallback(async () => {
     let newData: DataProps[] = [];
-    console.log("fetching...");
+
     for (let i = 0; i < categories.length; i++) {
       const element = categories[i];
-      console.log(`fetching ${element}...`);
       const res = await fetchData(element);
-      newData[i] = {
-        category: element,
-        res: res.Search,
-      };
+      if (res?.Search) {
+        newData[i] = {
+          category: element,
+          res: res.Search,
+        };
+      }
     }
     setData(newData);
 
@@ -48,7 +49,7 @@ export default function Home() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const res = await fetchData(input);
-    if(res.Search) {
+    if (res.Search) {
       setData([{ category: input, res: res.Search }]);
     }
   };

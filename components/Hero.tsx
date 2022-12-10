@@ -17,7 +17,6 @@ export default Hero;
 const Container = styled.section`
   width: 100%;
   height: 257px;
-  background-color: red;
   background-image: url("https://www.commonsensemedia.org/sites/default/files/styles/ratio_16_9_small/public/video-thumbnails/3vqj6m0i6gkuraljmhnzl0xr3by.jpeg");
   background-repeat: no-repeat;
   background-position: center;
